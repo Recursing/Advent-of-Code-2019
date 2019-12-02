@@ -28,9 +28,12 @@ mem_len = len(mem)
 s = z3.Solver()
 
 terminated = False
-for i in range(0, mem_len - 3, 4):
-    opcode, pos1, pos2, pos_res = z3_mem[i], z3_mem[i + 1], z3_mem[i + 2], z3_mem[i + 3]
+for i in range(0, mem_len, 4):
+    opcode = z3_mem[i]
     terminated = z3.Or(opcode == 99, terminated)
+    if i + 3 >= mem_len:
+        break
+    pos1, pos2, pos_res = z3_mem[i + 1], z3_mem[i + 2], z3_mem[i + 3]
     valid = z3.And(
         pos1 >= 0,
         pos2 >= 0,
@@ -52,6 +55,7 @@ for i in range(0, mem_len - 3, 4):
     )
 
 print("Solving...")
+print(19690720, "=", z3.simplify(z3_mem[0]))
 s.add(z3_mem[0] == 19690720)
 s.add(terminated)
 if not s.check():
