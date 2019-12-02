@@ -58,7 +58,7 @@ print("Solving...")
 print(19690720, "=", z3.simplify(z3_mem[0]))
 s.add(z3_mem[0] == 19690720)
 s.add(terminated)
-if not s.check():
+if s.check() == z3.unsat:
     print("Cannot solve :(")
 else:
     m = s.model()
