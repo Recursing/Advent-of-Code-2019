@@ -1,6 +1,3 @@
-from itertools import permutations, cycle
-
-
 class Processor:
     def __init__(self, start_mem):
         self.operations = {
