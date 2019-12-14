@@ -62,28 +62,27 @@ def solve(recipes, fuel_required=1):
     return shopping_cart["ORE"]
 
 
-# part 1
-recipes = parse_recipes(puzzle_input)
-print(solve(recipes, 1))
+if __name__ == "__main__":
+    # part 1
+    recipes = parse_recipes(puzzle_input)
+    print(solve(recipes, 1))
 
-# part 2
-TRILLION = 1000000000000
+    # part 2
+    TRILLION = 1000000000000
 
+    def bisect(recipes, goal=TRILLION):
+        lower, upper = 1, goal
 
-def bisect(recipes, goal=TRILLION):
-    lower, upper = 1, goal
+        while upper - lower > 1:
+            middle = (lower + upper) // 2
+            ore = solve(recipes, middle)
+            if ore > goal:
+                upper = middle
+            else:
+                lower = middle
+        return lower
 
-    while upper - lower > 1:
-        middle = (lower + upper) // 2
-        ore = solve(recipes, middle)
-        if ore > goal:
-            upper = middle
-        else:
-            lower = middle
-    return lower
-
-
-print(bisect(recipes, goal=TRILLION))
+    print(bisect(recipes, goal=TRILLION))
 
 
 tests = {
@@ -140,14 +139,22 @@ tests = {
 5 BHXH, 4 VRPVC => 5 LTCX""": 2210736,
 }
 
-for test_input, test_output in tests.items():
-    recipes = parse_recipes(test_input.splitlines())
-    assert solve(recipes, 1) == test_output
 
-tests_2 = {13312: 82892753, 180697: 5586022, 2210736: 460664}
-for test1_output, test2_output in tests_2.items():
-    test_input = next(
-        t_input for t_input, t_output in tests.items() if t_output == test1_output
-    )
-    recipes = parse_recipes(test_input.splitlines())
-    assert bisect(recipes, goal=TRILLION) == test2_output
+def test():
+    for test_input, test_output in tests.items():
+        recipes = parse_recipes(test_input.splitlines())
+        assert solve(recipes, 1) == test_output
+
+    tests_2 = {13312: 82892753, 180697: 5586022, 2210736: 460664}
+    for test1_output, test2_output in tests_2.items():
+        test_input = next(
+            t_input for t_input, t_output in tests.items() if t_output == test1_output
+        )
+        recipes = parse_recipes(test_input.splitlines())
+        assert bisect(recipes, goal=TRILLION) == test2_output
+    return True
+
+
+if __name__ == "__main__":
+    if test():
+        print("Tests passed")
