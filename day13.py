@@ -91,5 +91,8 @@ def run():
     drawcanvas()
 
 
-run()
-print(score)
+try:
+    run()
+except RuntimeError:
+    pass
+print("final score:", score)
