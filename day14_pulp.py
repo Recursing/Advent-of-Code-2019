@@ -28,8 +28,8 @@ print("Part 1:")
 prob = pulp.LpProblem("Day141", pulp.LpMinimize)
 for c in constraints:
     prob += c
-prob += chemicals["ORE"]
-prob += chemicals["FUEL"] == 1
+prob += chemicals["ORE"]  # Minimize this
+prob += chemicals["FUEL"] >= 1
 
 prob.solve()
 print(("Status:", pulp.LpStatus[prob.status]))
@@ -41,8 +41,8 @@ print("Part 2:")
 prob = pulp.LpProblem("Day142", pulp.LpMaximize)
 for c in constraints:
     prob += c
-prob += chemicals["FUEL"]
-prob += chemicals["ORE"] == 1000000000000
+prob += chemicals["FUEL"]  # Maximize this
+prob += chemicals["ORE"] == 1000000000000  # For some reason <= is Infeasible?
 
 prob.solve()
 print(("Status:", pulp.LpStatus[prob.status]))
