@@ -71,24 +71,22 @@ while True:
     else:
         break
 
-dir_str = ",".join(dirs) + ","
-print(dir_str)
-tmp_str = dir_str
+directions_str = ",".join(dirs) + ","
+print(directions_str)
 
 # much better regex solution from Stefano
 # ^(.{1,21})\1*(.{1,21})(?:\1|\2)*(.{1,21})(?:\1|\2|\3)*$
-for end_A, end_B, end_C in product(range(2, 21), repeat=3):
-    A = dir_str[:end_A]
-    strA = dir_str.replace(A, "")
-    B = strA[:end_B]
-    strB = strA.replace(B, "")
-    C = strB[:end_C]
-    strC = strB.replace(C, "")
-    if strC == "":
+for A_len, B_len, C_len in product(range(2, 21), repeat=3):
+    A = directions_str[:A_len]
+    str_without_A = directions_str.replace(A, "")
+    B = str_without_A[:B_len]
+    str_without_B = str_without_A.replace(B, "")
+    C = str_without_B[:C_len]
+    str_without_C = str_without_B.replace(C, "")
+    if str_without_C == "":
         break
 
-print(A, B, C, tmp_str)
-main_str = dir_str.replace(A, "A,").replace(B, "B,").replace(C, "C,")
+main_str = directions_str.replace(A, "A,").replace(B, "B,").replace(C, "C,")
 print(f"Pattern: {main_str[:-1]}")
 print(f"A: {A[:-1]} B: {B[:-1]} C: {C[:-1]}")
 
