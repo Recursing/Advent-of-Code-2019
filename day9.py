@@ -12,7 +12,7 @@ class Processor:
             9: (self.adjust_relative_base, 1),
             99: (self.halt, 0),
         }
-        self.mem = list(start_mem) + [0 for _ in range(100000)]
+        self.mem = list(start_mem) + [0] * (100000)
         self.registers = {
             "ip": 0,
             "rb": 0,
@@ -91,7 +91,11 @@ class Processor:
                 print(f"{ip} {self.mem[ip]}")
             mode, opcode = self.mem[ip] // 100, self.mem[ip] % 100
             op, arg_num = self.operations[opcode]
-            modes = list(map(int, reversed(f"{mode:0>5}")))
+            modes = []
+            for _ in range(5):
+                modes.append(mode % 10)
+                mode //= 10
+
             args = self.mem[ip + 1 : ip + arg_num + 1]
             self.registers["ip"] += arg_num + 1
             if self.verbose:

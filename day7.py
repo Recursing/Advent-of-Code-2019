@@ -14,7 +14,7 @@ class Processor:
             8: (self.equals, 3),
             99: (self.halt, 0),
         }
-        self.mem = list(start_mem) + [0 for _ in range(100000)]
+        self.mem = list(start_mem) + [0] * 100000
         self.registers = {"ip": 0, "running": True, "output": None, "input": None}
 
     def apply_modes(self, params, modes):
